@@ -13,6 +13,11 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\RichEditor;
+
+
 
 
 class UserResource extends Resource
@@ -25,15 +30,46 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required(),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required(),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required(),
+
+                Section::make('Fotos y Descripción del Perfil')
+                    ->columns(2)
+                    ->description('Agregar la foto del usuario y una breve descripción del mismo')
+                    ->schema([
+                        FileUpload::make('avatar')
+                            ->avatar()
+                            ->label('Foto de perfil')
+                            ->disk('public')
+                            ->directory('imginvestigadores')
+                            ->imageEditor()
+                            ->circleCropper()
+                            ->imageEditorViewportWidth('1920')
+                            ->imageEditorViewportHeight('1080'),
+                        RichEditor::make('profile_description')
+                        ->label('Descripción del perfil'),
+                    ]),
+
+                Section::make('Datos Generales del Usuario')
+                    ->columns(2)
+                    ->description('Agregar los datos generales del usuario')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required(),
+                        Forms\Components\TextInput::make('phone')
+                            ->required(),
+                        Forms\Components\TextInput::make('email')
+                            ->email()
+                            ->required(),
+                        Forms\Components\TextInput::make('address')
+                            ->required(),
+                        Forms\Components\DateTimePicker::make('email_verified_at'),
+                        Forms\Components\TextInput::make('password')
+                            ->password()
+                            ->required(),
+                        Forms\Components\TextInput::make('department')
+                            ->required(),
+
+
+                    ])
             ]);
     }
 
@@ -41,14 +77,31 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('avatar'),
+                ImageColumn::make('avatar')
+                ->disk('public')
+                    ->circular()
+                    ->size(60),
                 Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('profile_description')
+                    ->html()
+                    ->searchable()
+                    ->tooltip(fn ($state): string => strip_tags($state))
+                    ->limit(50)
+                    ->wrap(),
+
+                Tables\Columns\TextColumn::make('phone')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('address')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('department')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
