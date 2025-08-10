@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('sedes', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 45);
+            $table->string('name', 50);
+            $table->string('nombre_director', 50);
+            $table->string('celular_contacto', 15);
+            $table->string('email_institucional')->unique();
             $table->timestamps();
         });
     }

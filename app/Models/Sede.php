@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+
 
 class Sede extends Model
 {
-    use HasFactory;
+        use HasFactory;
 
     protected $fillable = [
         'name',
@@ -18,7 +21,6 @@ class Sede extends Model
         'celular_contacto',
         'email_institucional',
     ];
-
 
     public function country()
     {
@@ -32,4 +34,5 @@ class Sede extends Model
     {
         return $this->belongsTo(City::class);
     }
+
 }
