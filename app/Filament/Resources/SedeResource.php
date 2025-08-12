@@ -25,8 +25,8 @@ use Filament\Tables\Columns\ImageColumn;
 class SedeResource extends Resource
 {
     protected static ?string $model = Sede::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Gestionar';
+    protected static ?string $navigationIcon = 'heroicon-o-building-library';
 
     public static function form(Form $form): Form
     {
@@ -104,7 +104,7 @@ class SedeResource extends Resource
                     ->label('Nombre de la Sede')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nombre_director')
-                ->label('Director')
+                    ->label('Director')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('celular_contacto')
                     ->label('Número de contacto')
@@ -130,9 +130,7 @@ class SedeResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filters([
-                
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

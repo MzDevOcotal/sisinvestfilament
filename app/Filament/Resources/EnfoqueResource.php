@@ -16,8 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class EnfoqueResource extends Resource
 {
     protected static ?string $model = Enfoque::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Gestionar';
+    protected static ?string $navigationIcon = 'heroicon-o-document-check';
 
     public static function form(Form $form): Form
     {

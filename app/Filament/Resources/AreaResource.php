@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\EstadoResource\Pages;
-use App\Filament\Resources\EstadoResource\RelationManagers;
-use App\Models\Estado;
+use App\Filament\Resources\AreaResource\Pages;
+use App\Filament\Resources\AreaResource\RelationManagers;
+use App\Models\Area;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,18 +13,23 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class EstadoResource extends Resource
+class AreaResource extends Resource
 {
-    protected static ?string $model = Estado::class;
+    protected static ?string $model = Area::class;
     protected static ?string $navigationGroup = 'Gestionar';
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-right-start-on-rectangle';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Área')
                     ->required(),
+
+                Forms\Components\Select::make('cine_id')
+                ->relationship(name: 'cine', titleAttribute: 'name'),
+
             ]);
     }
 
@@ -42,6 +47,9 @@ class EstadoResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('cine.name')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //
@@ -66,9 +74,9 @@ class EstadoResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListEstados::route('/'),
-            'create' => Pages\CreateEstado::route('/create'),
-            'edit' => Pages\EditEstado::route('/{record}/edit'),
+            'index' => Pages\ListAreas::route('/'),
+            'create' => Pages\CreateArea::route('/create'),
+            'edit' => Pages\EditArea::route('/{record}/edit'),
         ];
     }
 }

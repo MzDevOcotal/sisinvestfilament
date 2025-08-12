@@ -16,8 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class CineResource extends Resource
 {
     protected static ?string $model = Cine::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Gestionar';
+    protected static ?string $navigationIcon = 'heroicon-o-bookmark-square';
 
     public static function form(Form $form): Form
     {

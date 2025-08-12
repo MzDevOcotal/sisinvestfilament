@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\EstadoResource\Pages;
-use App\Filament\Resources\EstadoResource\RelationManagers;
-use App\Models\Estado;
+use App\Filament\Resources\LineaResource\Pages;
+use App\Filament\Resources\LineaResource\RelationManagers;
+use App\Models\Linea;
+use App\Models\Area;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,18 +14,30 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class EstadoResource extends Resource
+class LineaResource extends Resource
 {
-    protected static ?string $model = Estado::class;
-    protected static ?string $navigationGroup = 'Gestionar';
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-right-start-on-rectangle';
+    protected static ?string $model = Linea::class;
 
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Gestionar';
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required(),
+                Forms\Components\Select::make('area_id')
+                ->label('Área del Conocimiento (Año)') // Etiqueta descriptiva
+                ->options(function () {
+                    // Carga todas las áreas con su relación 'cine' para evitar N+1 queries
+                    $areas = Area::with('cine')->get();
+
+                    // Mapea la colección para crear un array de opciones personalizado
+                    return $areas->mapWithKeys(function ($area) {
+                        return [$area->id => $area->name . ' (' . $area->cine->name . ')'];
+                    })->toArray();
+                })
+                ->required(),
             ]);
     }
 
@@ -42,6 +55,8 @@ class EstadoResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('area.name')
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -66,9 +81,9 @@ class EstadoResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListEstados::route('/'),
-            'create' => Pages\CreateEstado::route('/create'),
-            'edit' => Pages\EditEstado::route('/{record}/edit'),
+            'index' => Pages\ListLineas::route('/'),
+            'create' => Pages\CreateLinea::route('/create'),
+            'edit' => Pages\EditLinea::route('/{record}/edit'),
         ];
     }
 }

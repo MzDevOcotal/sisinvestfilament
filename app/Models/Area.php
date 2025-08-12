@@ -9,12 +9,14 @@ class Area extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'cine_id',
 
+    ];  
 
-
-
-    public function country()
+    public function cine()
     {
-        return $this->belongsTo(Country::class);
+        return $this->belongsTo(Cine::class);
     }
 }

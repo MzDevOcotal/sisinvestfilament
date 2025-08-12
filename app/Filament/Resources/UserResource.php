@@ -23,8 +23,10 @@ use Filament\Forms\Components\RichEditor;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Personas';
+    protected static ?string $navigationLabel = 'Usuarios';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+    
 
     public static function form(Form $form): Form
     {
@@ -45,7 +47,7 @@ class UserResource extends Resource
                             ->imageEditorViewportWidth('1920')
                             ->imageEditorViewportHeight('1080'),
                         RichEditor::make('profile_description')
-                        ->label('Descripción del perfil'),
+                            ->label('Descripción del perfil'),
                     ]),
 
                 Section::make('Datos Generales del Usuario')
@@ -78,7 +80,7 @@ class UserResource extends Resource
         return $table
             ->columns([
                 ImageColumn::make('avatar')
-                ->disk('public')
+                    ->disk('public')
                     ->circular()
                     ->size(60),
                 Tables\Columns\TextColumn::make('name')
@@ -86,7 +88,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('profile_description')
                     ->html()
                     ->searchable()
-                    ->tooltip(fn ($state): string => strip_tags($state))
+                    ->tooltip(fn($state): string => strip_tags($state))
                     ->limit(50)
                     ->wrap(),
 
