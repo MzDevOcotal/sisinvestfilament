@@ -17,6 +17,8 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Illuminate\Support\Facades\Auth;
+use Filament\Navigation\UserMenu;
 
 class DashboardPanelProvider extends PanelProvider
 {
@@ -30,6 +32,10 @@ class DashboardPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
+                        // Con esta línea para usar un logo:
+            ->brandLogo(asset('images/logouml.png')) // Asume que tu logo se llama 'logo.png' y está en public/images/
+            ->brandLogoHeight('3.5rem') // Opcional: ajusta la altura del logo
+
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
