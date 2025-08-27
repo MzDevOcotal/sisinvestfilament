@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Autor;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Investigacion extends Model
 {
@@ -25,7 +27,18 @@ class Investigacion extends Model
         'PDF',
 
     ];
-    
+
+    public function autores()
+    {
+        return $this->belongsToMany(Autor::class, 'investigacion_autor', 'investigacion_id', 'autor_id')
+            ->wherePivot('rol', 'Autor');
+    }
+
+    public function asesores()
+    {
+        return $this->belongsToMany(Autor::class, 'investigacion_autor', 'investigacion_id', 'autor_id')
+            ->wherePivot('rol', 'Asesor');
+    }
 
     public function linea()
     {
@@ -55,8 +68,4 @@ class Investigacion extends Model
     {
         return $this->belongsTo(Estado::class);
     }
-
-    
-
-    
 }

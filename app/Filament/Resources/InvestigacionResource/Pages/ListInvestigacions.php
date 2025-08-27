@@ -4,6 +4,7 @@ namespace App\Filament\Resources\InvestigacionResource\Pages;
 
 use App\Filament\Resources\InvestigacionResource;
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
 
 class ListInvestigacions extends ListRecords
@@ -13,7 +14,8 @@ class ListInvestigacions extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make(),   
+            Action::make('Reporte de Investigaciones'),
         ];
     }
 }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Investigacion;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 
@@ -26,6 +28,13 @@ class Autor extends Model
         'city_id',
     ];
 
+    public function investigaciones(): BelongsToMany
+    {
+        return $this->belongsToMany(Investigacion::class, 'investigacion_autor', 'autor_id', 'investigacion_id')
+            ->withPivot('rol')
+            ->withTimestamps();
+    }
+
     public function country()
     {
         return $this->belongsTo(Country::class);
@@ -43,5 +52,4 @@ class Autor extends Model
     {
         return $this->belongsTo(Sede::class);
     }
-    
 }

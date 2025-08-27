@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\InvestigacionResource\Pages;
 use App\Filament\Resources\InvestigacionResource\RelationManagers;
 use App\Models\Area;
+use App\Models\Autor;
 use App\Models\Investigacion;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
@@ -17,13 +18,15 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Filters\SelectFilter;
 
 class InvestigacionResource extends Resource
 {
     protected static ?string $model = Investigacion::class;
     protected static ?string $navigationGroup = 'Gestionar';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
     public static function form(Form $form): Form
     {
@@ -37,6 +40,28 @@ class InvestigacionResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->label('Título de la Investigación')
                             ->required(),
+                        Forms\Components\Select::make('autores_autores') // Campo para autores
+                            ->label('Autores')
+                            ->multiple()
+                            ->options(
+                                Autor::all()->mapWithKeys(function ($autor) {
+                                    return [$autor->id => "{$autor->nombres} {$autor->apellidos}"];
+                                })
+                            )
+                            ->preload()
+                            ->multiple()
+                            ->searchable(),
+                        Forms\Components\Select::make('autores_asesores') // Campo para asesores
+                            ->label('Asesores')
+                            ->options(
+                                Autor::all()->mapWithKeys(function ($autor) {
+                                    return [$autor->id => "{$autor->nombres} {$autor->apellidos}"];
+                                })
+                            )
+                            ->preload()
+
+                            ->multiple()
+                            ->searchable(),
                         Forms\Components\TextInput::make('avance')
                             ->placeholder('Ejemplo: 50')
                             ->required()
@@ -95,37 +120,81 @@ class InvestigacionResource extends Resource
             ]);
     }
 
+
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->wrap()
+                    ->limit(50)
+                    ->tooltip(function (TextColumn $column): ?string {
+                        $state = $column->getState();
+
+                        if (strlen($state) <= $column->getCharacterLimit()) {
+                            return null;
+                        }
+
+                        // Only render the tooltip if the column contents exceeds the length limit.
+                        return $state;
+                    })
                     ->searchable(),
+                Tables\Columns\TextColumn::make('autores.nombres', 'autores.apellidos')
+                    ->label('Autores')
+                    ->badge()
+                    ->color('success')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('asesores.nombres')
+                    ->label('Asesores')
+                    ->badge()
+                    ->color('info')
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('avance')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('area.name')
-                    ->numeric()
+                    ->wrap()
+                    ->limit(50)
+                    ->tooltip(function (TextColumn $column): ?string {
+                        $state = $column->getState();
+
+                        if (strlen($state) <= $column->getCharacterLimit()) {
+                            return null;
+                        }
+
+                        // Only render the tooltip if the column contents exceeds the length limit.
+                        return $state;
+                    })
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('sede.name')
-                    ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('categoria.name')
-                    ->numeric()
+                    ->wrap(100)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('year.anioacademico')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('enfoque.name')
-                    ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('estado.name')
-                    ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('linea.name')
-                    ->numeric()
+                    ->wrap()
+                    ->limit(50)
+                    ->tooltip(function (TextColumn $column): ?string {
+                        $state = $column->getState();
+
+                        if (strlen($state) <= $column->getCharacterLimit()) {
+                            return null;
+                        }
+
+                        // Only render the tooltip if the column contents exceeds the length limit.
+                        return $state;
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('PDF')
-                    ->label('Documento PDF')
+                    ->label('PDF')
                     ->icon('heroicon-o-document-text')
                     ->url(fn($record) => asset('storage/' . $record->PDF))
                     ->openUrlInNewTab()
@@ -142,7 +211,29 @@ class InvestigacionResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('estado')
+                    ->relationship('estado', 'name')
+                    ->options([
+                        'En Ejecución' => 'En Ejecución',
+                        'Finalizado' => 'Finalizado',
+                        'Publicado' => 'Publicado',
+                        'No Publicado' => 'No Publicado',
+                        'En Revisión' => 'En Revisión',
+                        'En Ajuste por el Autor' => 'En Ajuste por el Autor',
+                    ]),
+
+                SelectFilter::make('year')
+                    ->relationship('year', 'anioacademico')
+                    ->options([
+                        '2021' => '2021',
+                        '2022' => '2022',
+                        '2023' => '2023',
+                        '2024' => '2024',
+                        '2025' => '2025',
+                    ])
+
+
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
