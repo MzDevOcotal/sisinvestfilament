@@ -6,6 +6,8 @@ use App\Filament\Resources\InvestigacionResource;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\InvestigacionResource\Widgets\InvestigacionesAnuales; // Asegúrate de que esta sea la ruta correcta a tu widget
+
 
 class ListInvestigacions extends ListRecords
 {
@@ -18,4 +20,14 @@ class ListInvestigacions extends ListRecords
             Action::make('Reporte de Investigaciones'),
         ];
     }
+
+        protected function getHeaderWidgets(): array
+    {
+        return [
+
+        ];
+    }
+
+
+
 }

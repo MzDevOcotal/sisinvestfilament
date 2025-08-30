@@ -25,6 +25,7 @@ class Investigacion extends Model
         'estado_id',
         'linea_id',
         'PDF',
+        'link',
 
     ];
 
