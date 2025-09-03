@@ -28,6 +28,15 @@ class InvestigacionResource extends Resource
     protected static ?string $navigationGroup = 'Gestionar';
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
+
+
+
+
     public static function form(Form $form): Form
     {
         return $form
@@ -39,6 +48,7 @@ class InvestigacionResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label('Título de la Investigación')
+                            ->placeholder('Escriba el título del trabajo de Investigación')
                             ->required(),
                         Forms\Components\Select::make('autores_autores') // Campo para autores
                             ->label('Autores')
@@ -106,6 +116,8 @@ class InvestigacionResource extends Resource
                             ->relationship('linea', 'name')
                             ->placeholder('Seleccione una opción')
                             ->required(),
+                        Forms\Components\TextInput::make('link')
+                            ->placeholder('Aquí va el link del trabajo (opcional)'),
                     ]),
 
                 Section::make('Documento de Investigación')
@@ -200,6 +212,11 @@ class InvestigacionResource extends Resource
                     ->openUrlInNewTab()
                     ->html()
                     ->formatStateUsing(fn($state): string => '&nbsp;'),
+                Tables\Columns\TextColumn::make('link')
+                    ->label('Link del trabajo')
+                    ->url(fn(?string $state): ?string => $state) // Usa el valor de la columna como la URL
+                    ->openUrlInNewTab()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

@@ -26,6 +26,7 @@ class Autor extends Model
         'country_id',
         'state_id',
         'city_id',
+        'Estado',
     ];
 
     public function investigaciones(): BelongsToMany

@@ -25,6 +25,7 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Illuminate\Support\Collection;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Filters\SelectFilter;
 
 class AutorResource extends Resource
 {
@@ -33,6 +34,12 @@ class AutorResource extends Resource
     protected static ?string $navigationLabel = 'Autores';
 
     protected static ?string $navigationIcon = 'heroicon-o-pencil-square';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return parent::getEloquentQuery()->where('Estado', 'Activo')->count();
+        /* return static::getModel()::count(); */
+    }
 
     public static function form(Form $form): Form
     {
@@ -86,6 +93,13 @@ class AutorResource extends Resource
                         Forms\Components\Select::make('sede_id')
                             ->relationship(name: 'sede', titleAttribute: 'name')
                             ->preload()
+                            ->searchable(),
+                        Forms\Components\Select::make('Estado')
+                            ->options([
+                                'Activo' => 'Activo',
+                                'Suspendido' => 'Suspendido',
+                                'Baja' => 'Baja',
+                            ])
                             ->searchable(),
                     ]),
 
@@ -144,12 +158,20 @@ class AutorResource extends Resource
                     ->disk('public')
                     ->circular()
                     ->size(60),
-                Tables\Columns\TextColumn::make('tituloacadautor')
-                    ->label('Grado Académico')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('nombres')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('apellidos')
+                    ->searchable(),
+
+                TextColumn::make('Estado')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'Activo' => 'success',
+                        'Suspendido' => 'warning',
+                        'Baja' => 'danger',
+                    }),
+                Tables\Columns\TextColumn::make('tituloacadautor')
+                    ->label('Grado Académico')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('cedula')
                     ->searchable(),
@@ -183,7 +205,13 @@ class AutorResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('Estado')
+                    ->options([
+                        'Activo' => 'Activo',
+                        'Suspendido' => 'Suspendido',
+                        'Baja' => 'Baja',
+                    ])
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

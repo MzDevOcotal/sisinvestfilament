@@ -9,6 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 class ListAutors extends ListRecords
 {
     protected static string $resource = AutorResource::class;
+     protected static ?string $title = 'Listado de Autores';
 
     protected function getHeaderActions(): array
     {

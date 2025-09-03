@@ -25,20 +25,32 @@ class GlobalStatics extends BaseWidget
         $datosParaGrafico = array_values($investigacionesPorAno);
 
 
-        /* dd($investigacionesPorAno); */
+        /* dd(getTotalEnfoques()); */
 
         return [
             Stat::make('Total Autores', $this->getAutores())
                 ->description('220% de Incremento en el 2025')
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
+                ->descriptionIcon('heroicon-m-academic-cap')
                 ->color('success'),
             Stat::make('Total Investigaciones', $this->getInvestigaciones())
-                ->description('32k increase')
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
+                ->description('Período: 2021-2023')
+                ->descriptionIcon('heroicon-m-book-open')
                 ->color('success')
                 ->chart($datosParaGrafico),
             Stat::make('Total Artículos', $this->getArticulos())
-                ->description('3% increase')
+                ->description('Período: 2021-2023')
+                ->descriptionIcon('heroicon-m-arrow-trending-up')
+                ->color('success'),
+            Stat::make('Total Enfoque Cuantitativo', $this->getTotalEnfoqueCuantitativo())
+                ->description('Período: 2021-2023')
+                ->descriptionIcon('heroicon-m-arrow-trending-up')
+                ->color('success'),
+            Stat::make('Total Enfoque Cuanlitativo', $this->getTotalEnfoqueCuanlitativo())
+                ->description('Período: 2021-2023')
+                ->descriptionIcon('heroicon-m-arrow-trending-up')
+                ->color('success'),
+            Stat::make('Total Enfoque Mixto', $this->getTotalEnfoqueMixto())
+                ->description('Período: 2021-2023')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
         ];
@@ -65,4 +77,35 @@ class GlobalStatics extends BaseWidget
 
         return $articulos;
     }
+
+    //Estadísticas Totales de Investigaciones enroque cuantitativo
+    protected function getTotalEnfoqueCuantitativo()
+    {
+        $enfoqueCauanti = Investigacion::where('enfoque_id', 1)->get()->count();
+
+        return $enfoqueCauanti;
+    }
+
+    //Estadísticas Totales de Investigaciones enfoque Cualitativo
+    protected function getTotalEnfoqueCuanlitativo()
+    {
+        $enfoqueCuali = Investigacion::where('enfoque_id', 2)->get()->count();
+
+        return $enfoqueCuali;
+    }
+
+    //Estadísticas Totales de Investigaciones enfoque Cualitativo
+    protected function getTotalEnfoqueMixto()
+    {
+        $enfoqueMixto = Investigacion::where('enfoque_id', 3)->get()->count();
+
+        return $enfoqueMixto;
+    }
+
+
+
+
+
+
+
 }

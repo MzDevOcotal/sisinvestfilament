@@ -12,6 +12,7 @@ use App\Filament\Resources\InvestigacionResource\Widgets\InvestigacionesAnuales;
 class ListInvestigacions extends ListRecords
 {
     protected static string $resource = InvestigacionResource::class;
+    protected static ?string $title = 'Listado de Investigaciones';
 
     protected function getHeaderActions(): array
     {
