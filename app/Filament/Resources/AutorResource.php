@@ -26,6 +26,7 @@ use Filament\Forms\Set;
 use Illuminate\Support\Collection;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Filters\SelectFilter;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class AutorResource extends Resource
 {
@@ -182,6 +183,8 @@ class AutorResource extends Resource
                 Tables\Columns\TextColumn::make('correo')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('orcid')
+                    ->url(fn(?string $state): ?string => $state) // Usa el valor de la columna como la URL
+                    ->openUrlInNewTab()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('sede.name')
                     ->numeric()
@@ -218,9 +221,11 @@ class AutorResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+                ExportBulkAction::make()
+            
+        ]);
     }
 
     public static function getRelations(): array
