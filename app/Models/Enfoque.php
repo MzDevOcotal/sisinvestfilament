@@ -11,5 +11,5 @@ class Enfoque extends Model
 
     protected $fillable = [
         'name',
-    ];  
+    ];
 }

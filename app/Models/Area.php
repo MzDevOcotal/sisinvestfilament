@@ -13,7 +13,7 @@ class Area extends Model
         'name',
         'cine_id',
 
-    ];  
+    ];
 
     public function cine()
     {

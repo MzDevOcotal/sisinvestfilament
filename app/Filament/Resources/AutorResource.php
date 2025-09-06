@@ -3,35 +3,31 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AutorResource\Pages;
-use App\Filament\Resources\AutorResource\RelationManagers;
 use App\Models\Autor;
-use App\Models\Sede;
-use App\Models\State;
 use App\Models\City;
-use App\Models\Country;
+use App\Models\State;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
-use Illuminate\Support\Collection;
+use Filament\Resources\Resource;
+use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Illuminate\Support\Collection;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class AutorResource extends Resource
 {
     protected static ?string $model = Autor::class;
+
     protected static ?string $navigationGroup = 'Personas';
+
     protected static ?string $navigationLabel = 'Autores';
 
     protected static ?string $navigationIcon = 'heroicon-o-pencil-square';
@@ -114,7 +110,7 @@ class AutorResource extends Resource
                             ->preload()
                             ->live()
                             ->searchable()
-                            //Esta función permite hacer null los otros 2 select dependientes de él al momento de deseleccionar el país.
+                            // Esta función permite hacer null los otros 2 select dependientes de él al momento de deseleccionar el país.
                             ->afterStateUpdated(function (Set $set) {
                                 $set('state_id', null);
                                 $set('city_id', null);
@@ -122,13 +118,13 @@ class AutorResource extends Resource
                             ->required(),
                         Forms\Components\Select::make('state_id')
                             ->label('State')
-                            ->options(fn(Get $get): Collection => State::query()
+                            ->options(fn (Get $get): Collection => State::query()
                                 ->where('country_id', $get('country_id'))
                                 ->pluck('name', 'id'))
                             ->searchable()
                             ->preload()
                             ->live()
-                            //Esta función permite hacer null el select de ciudad al momento de deseleccionar el estado.
+                            // Esta función permite hacer null el select de ciudad al momento de deseleccionar el estado.
                             ->afterStateUpdated(function (Set $set) {
                                 $set('city_id', null);
                             })
@@ -136,17 +132,14 @@ class AutorResource extends Resource
 
                         Forms\Components\Select::make('city_id')
                             ->label('City')
-                            ->options(fn(Get $get): Collection => City::query()
+                            ->options(fn (Get $get): Collection => City::query()
                                 ->where('state_id', $get('state_id'))
                                 ->pluck('name', 'id'))
                             ->searchable()
                             ->preload()
                             ->required(),
 
-
-
-                    ])
-
+                    ]),
 
             ]);
     }
@@ -166,7 +159,7 @@ class AutorResource extends Resource
 
                 TextColumn::make('Estado')
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'Activo' => 'success',
                         'Suspendido' => 'warning',
                         'Baja' => 'danger',
@@ -183,7 +176,7 @@ class AutorResource extends Resource
                 Tables\Columns\TextColumn::make('correo')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('orcid')
-                    ->url(fn(?string $state): ?string => $state) // Usa el valor de la columna como la URL
+                    ->url(fn (?string $state): ?string => $state) // Usa el valor de la columna como la URL
                     ->openUrlInNewTab()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('sede.name')
@@ -213,7 +206,7 @@ class AutorResource extends Resource
                         'Activo' => 'Activo',
                         'Suspendido' => 'Suspendido',
                         'Baja' => 'Baja',
-                    ])
+                    ]),
 
             ])
             ->actions([
@@ -221,11 +214,11 @@ class AutorResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
-                ExportBulkAction::make()
-            
-        ]);
+                ExportBulkAction::make(),
+
+            ]);
     }
 
     public static function getRelations(): array

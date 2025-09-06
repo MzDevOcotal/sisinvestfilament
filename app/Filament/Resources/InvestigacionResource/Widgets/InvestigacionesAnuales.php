@@ -7,6 +7,7 @@ use Filament\Widgets\ChartWidget;
 class InvestigacionesAnuales extends ChartWidget
 {
     protected static ?string $heading = 'Investigaciones por Año y Área del Conocimiento';
+
     public ?string $filter = 'today';
 
     protected function getData(): array

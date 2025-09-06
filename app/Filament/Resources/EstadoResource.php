@@ -3,20 +3,19 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\EstadoResource\Pages;
-use App\Filament\Resources\EstadoResource\RelationManagers;
 use App\Models\Estado;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class EstadoResource extends Resource
 {
     protected static ?string $model = Estado::class;
+
     protected static ?string $navigationGroup = 'Gestionar';
+
     protected static ?string $navigationIcon = 'heroicon-o-arrow-right-start-on-rectangle';
 
     public static function form(Form $form): Form

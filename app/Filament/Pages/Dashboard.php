@@ -2,10 +2,8 @@
 
 namespace App\Filament\Pages;
 
-use App\Filament\Resources\InvestigacionResource;
 use App\Filament\Widgets;
 use Filament\Pages\Dashboard as BasePage;
-use App\Filament\Resources\InvestigacionResource\Widgets\InvestigaionesAnuales;
 
 class Dashboard extends BasePage
 {
@@ -22,7 +20,7 @@ class Dashboard extends BasePage
     protected function getHeaderWidgets(): array
     {
         return [
-        //
+            //
         ];
     }
 

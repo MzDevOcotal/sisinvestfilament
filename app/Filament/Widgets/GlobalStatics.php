@@ -24,7 +24,6 @@ class GlobalStatics extends BaseWidget
         // en el orden correcto. Los años se usarán como etiquetas en el frontend.
         $datosParaGrafico = array_values($investigacionesPorAno);
 
-
         /* dd(getTotalEnfoques()); */
 
         return [
@@ -56,13 +55,13 @@ class GlobalStatics extends BaseWidget
         ];
     }
 
-    //Estadísticas Totales de Autores
+    // Estadísticas Totales de Autores
     protected function getAutores()
     {
         return Autor::count();
     }
 
-    //Estadísticas Totales de Investigaciones
+    // Estadísticas Totales de Investigaciones
     protected function getInvestigaciones()
     {
         $trabaAcad = Investigacion::where('categoria_id', '!=', 3)->get()->count();
@@ -70,7 +69,7 @@ class GlobalStatics extends BaseWidget
         return $trabaAcad;
     }
 
-    //Estadísticas Totales de Artículos
+    // Estadísticas Totales de Artículos
     protected function getArticulos()
     {
         $articulos = Investigacion::where('categoria_id', 3)->get()->count();
@@ -78,7 +77,7 @@ class GlobalStatics extends BaseWidget
         return $articulos;
     }
 
-    //Estadísticas Totales de Investigaciones enroque cuantitativo
+    // Estadísticas Totales de Investigaciones enroque cuantitativo
     protected function getTotalEnfoqueCuantitativo()
     {
         $enfoqueCauanti = Investigacion::where('enfoque_id', 1)->get()->count();
@@ -86,7 +85,7 @@ class GlobalStatics extends BaseWidget
         return $enfoqueCauanti;
     }
 
-    //Estadísticas Totales de Investigaciones enfoque Cualitativo
+    // Estadísticas Totales de Investigaciones enfoque Cualitativo
     protected function getTotalEnfoqueCuanlitativo()
     {
         $enfoqueCuali = Investigacion::where('enfoque_id', 2)->get()->count();
@@ -94,18 +93,11 @@ class GlobalStatics extends BaseWidget
         return $enfoqueCuali;
     }
 
-    //Estadísticas Totales de Investigaciones enfoque Cualitativo
+    // Estadísticas Totales de Investigaciones enfoque Cualitativo
     protected function getTotalEnfoqueMixto()
     {
         $enfoqueMixto = Investigacion::where('enfoque_id', 3)->get()->count();
 
         return $enfoqueMixto;
     }
-
-
-
-
-
-
-
 }

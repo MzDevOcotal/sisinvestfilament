@@ -12,7 +12,7 @@ class EditInvestigacion extends EditRecord
 
     protected function afterSave(): void
     {
-        
+
         $autoresIds = $this->data['autores_autores'] ?? [];
         $asesoresIds = $this->data['autores_asesores'] ?? [];
 
