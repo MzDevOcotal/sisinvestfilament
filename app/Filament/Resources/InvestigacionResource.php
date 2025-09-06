@@ -144,8 +144,9 @@ class InvestigacionResource extends Resource
                         return $state;
                     })
                     ->searchable(),
-                Tables\Columns\TextColumn::make('autores.nombres', 'autores.apellidos')
+                Tables\Columns\TextColumn::make('autores')
                     ->label('Autores')
+                    ->formatStateUsing(fn ($state): string => $state->nombres . ' ' . $state->apellidos)
                     ->badge()
                     ->color('success')
                     ->searchable(),
@@ -246,6 +247,11 @@ class InvestigacionResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
+            ->modifyQueryUsing(function ($query) {
+                return $query
+                    ->with('autores')
+                    ->orderBy('created_at', 'desc');
+            })
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
