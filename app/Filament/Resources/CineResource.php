@@ -18,6 +18,7 @@ class CineResource extends Resource
     protected static ?string $model = Cine::class;
     protected static ?string $navigationGroup = 'Gestionar';
     protected static ?string $navigationIcon = 'heroicon-o-bookmark-square';
+    protected static ?string $navigationLabel = 'CINE';
 
     public static function form(Form $form): Form
     {

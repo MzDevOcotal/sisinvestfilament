@@ -27,6 +27,7 @@ class InvestigacionResource extends Resource
     protected static ?string $model = Investigacion::class;
     protected static ?string $navigationGroup = 'Gestionar';
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
+        protected static ?string $navigationLabel = 'Investigaciones';
 
     public static function getNavigationBadge(): ?string
     {
