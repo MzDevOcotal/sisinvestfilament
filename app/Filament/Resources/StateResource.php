@@ -3,23 +3,22 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\StateResource\Pages;
-use App\Filament\Resources\StateResource\RelationManagers;
 use App\Models\State;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class StateResource extends Resource
 {
     protected static ?string $model = State::class;
-    protected static ?string $navigationGroup = 'Administrar Territorio';
-    protected static ?string $navigationLabel = 'Departamentos';
-    protected static ?string $navigationIcon = 'heroicon-o-map-pin';
 
+    protected static ?string $navigationGroup = 'Administrar Territorio';
+
+    protected static ?string $navigationLabel = 'Departamentos';
+
+    protected static ?string $navigationIcon = 'heroicon-o-map-pin';
 
     public static function form(Form $form): Form
     {

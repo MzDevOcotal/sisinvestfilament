@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\DB;
 class AutoresPublicaciones extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
+
     protected static string $view = 'filament.pages.autores-publicaciones';
+
     protected static ?string $title = 'Trabajos Académicos por Autor';
 
     public $autores;
@@ -19,8 +21,8 @@ class AutoresPublicaciones extends Page
             ->join('investigaciones as i', 'ia.investigacion_id', '=', 'i.id')
             ->join('autors as a', 'ia.autor_id', '=', 'a.id')
             ->join('categorias as c', 'i.categoria_id', '=', 'c.id')
-             ->where('ia.rol', '=', 'Autor')
-             ->whereIn('i.estado_id', [2,3])
+            ->where('ia.rol', '=', 'Autor')
+            ->whereIn('i.estado_id', [2, 3])
             ->select(
                 'a.id',
                 'a.nombres',

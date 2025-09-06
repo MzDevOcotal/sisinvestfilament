@@ -25,9 +25,9 @@ return new class extends Migration
 
             /* RELACIONES */
             $table->foreignId('sede_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('state_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete(); 
+            $table->foreignId('state_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('country_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('city_id')->nulllable()->constrained()->cascadeOnUpdate()->cascadeOnDelete(); 
+            $table->foreignId('city_id')->nulllable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }

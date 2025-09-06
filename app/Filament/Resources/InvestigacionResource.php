@@ -3,40 +3,33 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\InvestigacionResource\Pages;
-use App\Filament\Resources\InvestigacionResource\RelationManagers;
 use App\Models\Area;
 use App\Models\Autor;
 use App\Models\Investigacion;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 
 class InvestigacionResource extends Resource
 {
     protected static ?string $model = Investigacion::class;
+
     protected static ?string $navigationGroup = 'Gestionar';
+
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
-        protected static ?string $navigationLabel = 'Investigaciones';
+
+    protected static ?string $navigationLabel = 'Investigaciones';
 
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
     }
-
-
-
-
 
     public static function form(Form $form): Form
     {
@@ -87,7 +80,7 @@ class InvestigacionResource extends Resource
 
                                 // Mapea la colección para crear un array de opciones personalizado
                                 return $areas->mapWithKeys(function ($area) {
-                                    return [$area->id => $area->name . ' (' . $area->cine->name . ')'];
+                                    return [$area->id => $area->name.' ('.$area->cine->name.')'];
                                 })->toArray();
                             })
                             ->required(),
@@ -129,10 +122,9 @@ class InvestigacionResource extends Resource
                             ->disk('public')
                             ->directory('pdf'),
 
-                    ])
+                    ]),
             ]);
     }
-
 
     public static function table(Table $table): Table
     {
@@ -152,8 +144,9 @@ class InvestigacionResource extends Resource
                         return $state;
                     })
                     ->searchable(),
-                Tables\Columns\TextColumn::make('autores.nombres', 'autores.apellidos')
+                Tables\Columns\TextColumn::make('autores')
                     ->label('Autores')
+                    ->formatStateUsing(fn ($state): string => $state->nombres . ' ' . $state->apellidos)
                     ->badge()
                     ->color('success')
                     ->searchable(),
@@ -209,13 +202,13 @@ class InvestigacionResource extends Resource
                 Tables\Columns\TextColumn::make('PDF')
                     ->label('PDF')
                     ->icon('heroicon-o-document-text')
-                    ->url(fn($record) => asset('storage/' . $record->PDF))
+                    ->url(fn ($record) => asset('storage/'.$record->PDF))
                     ->openUrlInNewTab()
                     ->html()
-                    ->formatStateUsing(fn($state): string => '&nbsp;'),
+                    ->formatStateUsing(fn ($state): string => '&nbsp;'),
                 Tables\Columns\TextColumn::make('link')
                     ->label('Link del trabajo')
-                    ->url(fn(?string $state): ?string => $state) // Usa el valor de la columna como la URL
+                    ->url(fn (?string $state): ?string => $state) // Usa el valor de la columna como la URL
                     ->openUrlInNewTab()
                     ->toggleable(isToggledHiddenByDefault: true),
 
@@ -248,14 +241,17 @@ class InvestigacionResource extends Resource
                         '2023' => '2023',
                         '2024' => '2024',
                         '2025' => '2025',
-                    ])
-
-
+                    ]),
 
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
+            ->modifyQueryUsing(function ($query) {
+                return $query
+                    ->with('autores')
+                    ->orderBy('created_at', 'desc');
+            })
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

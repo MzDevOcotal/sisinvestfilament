@@ -3,29 +3,26 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SedeResource\Pages;
-use App\Filament\Resources\SedeResource\RelationManagers;
+use App\Models\City;
 use App\Models\Sede;
 use App\Models\State;
-use App\Models\City;
 use Filament\Forms;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Collection;
-use Filament\Tables\Columns\ImageColumn;
 
 class SedeResource extends Resource
 {
     protected static ?string $model = Sede::class;
+
     protected static ?string $navigationGroup = 'Gestionar';
+
     protected static ?string $navigationIcon = 'heroicon-o-building-library';
 
     public static function form(Form $form): Form
@@ -61,7 +58,7 @@ class SedeResource extends Resource
                             ->searchable()
                             ->preload()
                             ->live()
-                            //Esta función permite hacer null los otros 2 select dependientes de él al momento de deseleccionar el país.
+                            // Esta función permite hacer null los otros 2 select dependientes de él al momento de deseleccionar el país.
                             ->afterStateUpdated(function (Set $set) {
                                 $set('state_id', null);
                                 $set('city_id', null);
@@ -70,13 +67,13 @@ class SedeResource extends Resource
 
                         Forms\Components\Select::make('state_id')
                             ->label('State')
-                            ->options(fn(Get $get): Collection => State::query()
+                            ->options(fn (Get $get): Collection => State::query()
                                 ->where('country_id', $get('country_id'))
                                 ->pluck('name', 'id'))
                             ->searchable()
                             ->preload()
                             ->live()
-                            //Esta función permite hacer null el select de ciudad al momento de deseleccionar el estado.
+                            // Esta función permite hacer null el select de ciudad al momento de deseleccionar el estado.
                             ->afterStateUpdated(function (Set $set) {
                                 $set('city_id', null);
                             })
@@ -84,15 +81,14 @@ class SedeResource extends Resource
 
                         Forms\Components\Select::make('city_id')
                             ->label('City')
-                            ->options(fn(Get $get): Collection => City::query()
+                            ->options(fn (Get $get): Collection => City::query()
                                 ->where('state_id', $get('state_id'))
                                 ->pluck('name', 'id'))
                             ->searchable()
                             ->preload()
                             ->required(),
 
-
-                    ])
+                    ]),
             ]);
     }
 

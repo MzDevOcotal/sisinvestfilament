@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-        $table->string('avatar', 255)->nullable()->default('imginvestigadores/ursdflt.jpg');
-        $table->string('phone', 15)->nullable();
-        $table->string('address', 255)->nullable();
-        $table->longtext('profile_description')->nullable();
-        $table->string('department', 30)->nullable();
+            $table->string('avatar', 255)->nullable()->default('imginvestigadores/ursdflt.jpg');
+            $table->string('phone', 15)->nullable();
+            $table->string('address', 255)->nullable();
+            $table->longtext('profile_description')->nullable();
+            $table->string('department', 30)->nullable();
 
         });
     }
@@ -27,7 +27,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-             $table->dropColumn(['avatar', 'phone', 'address', 'profile_description', 'department']);
+            $table->dropColumn(['avatar', 'phone', 'address', 'profile_description', 'department']);
         });
     }
 };

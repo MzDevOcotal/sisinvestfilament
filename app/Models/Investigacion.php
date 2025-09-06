@@ -4,13 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Autor;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Investigacion extends Model
 {
     use HasFactory;
-
 
     protected $table = 'investigaciones';
 
@@ -45,26 +42,32 @@ class Investigacion extends Model
     {
         return $this->belongsTo(Linea::class);
     }
+
     public function area()
     {
         return $this->belongsTo(Area::class);
     }
+
     public function sede()
     {
         return $this->belongsTo(Sede::class);
     }
+
     public function categoria()
     {
         return $this->belongsTo(Categoria::class);
     }
+
     public function year()
     {
         return $this->belongsTo(Year::class);
     }
+
     public function enfoque()
     {
         return $this->belongsTo(Enfoque::class);
     }
+
     public function estado()
     {
         return $this->belongsTo(Estado::class);

@@ -3,22 +3,22 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AreaResource\Pages;
-use App\Filament\Resources\AreaResource\RelationManagers;
 use App\Models\Area;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AreaResource extends Resource
 {
     protected static ?string $model = Area::class;
+
     protected static ?string $navigationGroup = 'Gestionar';
+
     protected static ?string $navigationIcon = 'heroicon-o-sparkles';
-        protected static ?string $navigationLabel = 'Áreas';
+
+    protected static ?string $navigationLabel = 'Áreas';
 
     public static function form(Form $form): Form
     {
@@ -29,7 +29,7 @@ class AreaResource extends Resource
                     ->required(),
 
                 Forms\Components\Select::make('cine_id')
-                ->relationship(name: 'cine', titleAttribute: 'name'),
+                    ->relationship(name: 'cine', titleAttribute: 'name'),
 
             ]);
     }

@@ -11,5 +11,5 @@ class Cine extends Model
 
     protected $fillable = [
         'name',
-    ];  
+    ];
 }

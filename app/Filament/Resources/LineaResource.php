@@ -3,23 +3,22 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\LineaResource\Pages;
-use App\Filament\Resources\LineaResource\RelationManagers;
-use App\Models\Linea;
 use App\Models\Area;
+use App\Models\Linea;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class LineaResource extends Resource
 {
     protected static ?string $model = Linea::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-paper-airplane';
+
     protected static ?string $navigationGroup = 'Gestionar';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -27,17 +26,17 @@ class LineaResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required(),
                 Forms\Components\Select::make('area_id')
-                ->label('Área del Conocimiento (Año)') // Etiqueta descriptiva
-                ->options(function () {
-                    // Carga todas las áreas con su relación 'cine' para evitar N+1 queries
-                    $areas = Area::with('cine')->get();
+                    ->label('Área del Conocimiento (Año)') // Etiqueta descriptiva
+                    ->options(function () {
+                        // Carga todas las áreas con su relación 'cine' para evitar N+1 queries
+                        $areas = Area::with('cine')->get();
 
-                    // Mapea la colección para crear un array de opciones personalizado
-                    return $areas->mapWithKeys(function ($area) {
-                        return [$area->id => $area->name . ' (' . $area->cine->name . ')'];
-                    })->toArray();
-                })
-                ->required(),
+                        // Mapea la colección para crear un array de opciones personalizado
+                        return $areas->mapWithKeys(function ($area) {
+                            return [$area->id => $area->name.' ('.$area->cine->name.')'];
+                        })->toArray();
+                    })
+                    ->required(),
             ]);
     }
 
