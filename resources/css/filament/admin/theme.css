@@ -6,3 +6,12 @@
 html:not(.dark) .fi-sidebar-header img {
     filter: invert(100%);
 }
+
+.catInvest{
+    font-size: 0.8rem;
+}
+
+.headcardautors {
+    background: rgba(107, 106, 104, 0.795);
+    border-radius: 15px;
+}

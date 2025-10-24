@@ -25,6 +25,8 @@ class DashboardPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->sidebarCollapsibleOnDesktop()
+            ->maxContentWidth('full')
             ->default()
             ->id('admin')
             ->path('admin')
@@ -32,7 +34,7 @@ class DashboardPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
-                        // Con esta línea para usar un logo:
+            // Con esta línea para usar un logo:
             ->brandLogo(asset('images/logouml.png')) // Asume que tu logo se llama 'logo.png' y está en public/images/
             ->brandLogoHeight('3.5rem') // Opcional: ajusta la altura del logo
 

@@ -34,7 +34,7 @@ class AutorResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return parent::getEloquentQuery()->where('Estado', 'Activo')->count();
+        return parent::getEloquentQuery()->count();
         /* return static::getModel()::count(); */
     }
 

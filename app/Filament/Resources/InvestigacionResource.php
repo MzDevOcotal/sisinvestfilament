@@ -80,7 +80,7 @@ class InvestigacionResource extends Resource
 
                                 // Mapea la colección para crear un array de opciones personalizado
                                 return $areas->mapWithKeys(function ($area) {
-                                    return [$area->id => $area->name.' ('.$area->cine->name.')'];
+                                    return [$area->id => $area->name . ' (' . $area->cine->name . ')'];
                                 })->toArray();
                             })
                             ->required(),
@@ -131,6 +131,7 @@ class InvestigacionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Título de la Investigación')
                     ->wrap()
                     ->limit(50)
                     ->tooltip(function (TextColumn $column): ?string {
@@ -146,12 +147,13 @@ class InvestigacionResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('autores')
                     ->label('Autores')
-                    ->formatStateUsing(fn ($state): string => $state->nombres . ' ' . $state->apellidos)
+                    ->formatStateUsing(fn($state): string => $state->nombres . ' ' . $state->apellidos)
                     ->badge()
                     ->color('success')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('asesores.nombres')
+                Tables\Columns\TextColumn::make('asesores')
                     ->label('Asesores')
+                    ->formatStateUsing(fn($state): string => $state->nombres . ' ' . $state->apellidos)
                     ->badge()
                     ->color('info')
                     ->searchable(),
@@ -202,13 +204,13 @@ class InvestigacionResource extends Resource
                 Tables\Columns\TextColumn::make('PDF')
                     ->label('PDF')
                     ->icon('heroicon-o-document-text')
-                    ->url(fn ($record) => asset('storage/'.$record->PDF))
+                    ->url(fn($record) => asset('storage/' . $record->PDF))
                     ->openUrlInNewTab()
                     ->html()
-                    ->formatStateUsing(fn ($state): string => '&nbsp;'),
+                    ->formatStateUsing(fn($state): string => '&nbsp;'),
                 Tables\Columns\TextColumn::make('link')
                     ->label('Link del trabajo')
-                    ->url(fn (?string $state): ?string => $state) // Usa el valor de la columna como la URL
+                    ->url(fn(?string $state): ?string => $state) // Usa el valor de la columna como la URL
                     ->openUrlInNewTab()
                     ->toggleable(isToggledHiddenByDefault: true),
 

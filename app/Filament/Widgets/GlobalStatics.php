@@ -27,7 +27,7 @@ class GlobalStatics extends BaseWidget
         /* dd(getTotalEnfoques()); */
 
         return [
-            Stat::make('Total Autores', $this->getAutores())
+            Stat::make('Total Autores Activos', $this->getAutores())
                 ->description('220% de Incremento en el 2025')
                 ->descriptionIcon('heroicon-m-academic-cap')
                 ->color('success'),
@@ -44,7 +44,7 @@ class GlobalStatics extends BaseWidget
                 ->description('Período: 2021-2023')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
-            Stat::make('Total Enfoque Cuanlitativo', $this->getTotalEnfoqueCuanlitativo())
+            Stat::make('Total Enfoque Cualitativo', $this->getTotalEnfoqueCuanlitativo())
                 ->description('Período: 2021-2023')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
@@ -58,7 +58,7 @@ class GlobalStatics extends BaseWidget
     // Estadísticas Totales de Autores
     protected function getAutores()
     {
-        return Autor::count();
+        return Autor::where('Estado', 'Activo')->get()->count();
     }
 
     // Estadísticas Totales de Investigaciones

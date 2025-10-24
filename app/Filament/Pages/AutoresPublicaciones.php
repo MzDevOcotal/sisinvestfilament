@@ -26,6 +26,7 @@ class AutoresPublicaciones extends Page
             ->select(
                 'a.id',
                 'a.nombres',
+                'a.apellidos',
                 'a.imagen',
                 'a.Estado',
                 'c.name as categoria',
