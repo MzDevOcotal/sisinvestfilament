@@ -82,6 +82,7 @@ class AutorResource extends Resource
                                 'Licenciatura' => 'Licenciatura',
                                 'Maestría' => 'Maestría',
                                 'Doctorado' => 'Doctorado',
+                                'Bachiller' => 'Bachiller',
                             ])
                             ->required(),
                         Forms\Components\TextInput::make('orcid')

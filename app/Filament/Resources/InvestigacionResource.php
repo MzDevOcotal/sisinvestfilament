@@ -144,13 +144,13 @@ class InvestigacionResource extends Resource
                         // Only render the tooltip if the column contents exceeds the length limit.
                         return $state;
                     })
-                    ->searchable(),
+                     ->searchable(),
                 Tables\Columns\TextColumn::make('autores')
                     ->label('Autores')
+                    ->searchable()
                     ->formatStateUsing(fn($state): string => $state->nombres . ' ' . $state->apellidos)
                     ->badge()
-                    ->color('success')
-                    ->searchable(),
+                    ->color('success'),
                 Tables\Columns\TextColumn::make('asesores')
                     ->label('Asesores')
                     ->formatStateUsing(fn($state): string => $state->nombres . ' ' . $state->apellidos)
