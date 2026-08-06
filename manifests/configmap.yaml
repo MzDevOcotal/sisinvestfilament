@@ -9,4 +9,5 @@ data:
   # ¡Importante! Cambia esto por la IP de tu VPS o tu dominio final antes de subirlo
   APP_URL: "http://144.217.167.89:30080" 
   DB_CONNECTION: "sqlite"
+  DB_DATABASE: "/var/www/html/storage/app/db/database.sqlite"
   SESSION_DRIVER: "database"
