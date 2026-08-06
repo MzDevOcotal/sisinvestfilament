@@ -3,10 +3,10 @@ kind: Ingress
 metadata:
   name: filament-app-ingress
   namespace: default
-  # Estas anotaciones le dicen a K3s que use Traefik (que viene por defecto)
   annotations:
-    kubernetes.io/ingress.class: traefik
+    kubernetes.io/ingress.class: traefik # Mantenemos esto por compatibilidad
 spec:
+  ingressClassName: traefik              # <--- ESTO ES LO QUE FALTA
   rules:
     - host: investigaciones.mzdevocotal.com
       http:
@@ -15,6 +15,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: filament-app-service 
+                name: filament-app-service
                 port:
                   number: 80
