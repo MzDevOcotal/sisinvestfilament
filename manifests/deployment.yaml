@@ -16,7 +16,7 @@ spec:
         fsGroup: 33
       containers:
       - name: filament-app
-        image: mzdevocotal/filament-app:v2
+        image: mzdevocotal/filament-app:v3
         ports:
         - containerPort: 80
         envFrom:
