@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: filament-app-ingress
+  namespace: default
+  # Estas anotaciones le dicen a K3s que use Traefik (que viene por defecto)
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: investigaciones.mzdevocotal.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: filament-app-service 
+                port:
+                  number: 80
