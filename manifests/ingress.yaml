@@ -5,7 +5,11 @@ metadata:
   namespace: default
 spec:
   ingressClassName: nginx              # <--- ESTO ES LO QUE FALTA
-  rules:
+tls:
+    - hosts:
+        - investigaciones.mzdevocotal.com
+      secretName: filament-tls-secret
+rules:
     - host: investigaciones.mzdevocotal.com
       http:
         paths:
