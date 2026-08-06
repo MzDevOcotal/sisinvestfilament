@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: filament-app
 spec:
-  replicas: 1 
+  replicas: 1
   selector:
     matchLabels:
       app: filament-app
@@ -15,19 +15,25 @@ spec:
       securityContext:
         fsGroup: 33
       containers:
-      - name: filament-app
-        image: mzdevocotal/filament-app:v6
-        ports:
-        - containerPort: 80
-        envFrom:
-        - configMapRef:
-            name: filament-config
-        - secretRef:
-            name: filament-secret
-        volumeMounts:
-        - name: sqlite-storage
-          mountPath: /var/www/html/storage/app/db
+        - name: filament-app
+          image: mzdevocotal/filament-app:v6
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: filament-config
+            - secretRef:
+                name: filament-secret
+          volumeMounts:
+            - name: sqlite-storage
+              mountPath: /var/www/html/storage/app/db
       volumes:
-      - name: sqlite-storage
-        persistentVolumeClaim:
-          claimName: filament-sqlite-pvc
+        - name: sqlite-storage
+          persistentVolumeClaim:
+            claimName: filament-sqlite-pvc
+      env:
+        # ... tus otras variables (DB_HOST, etc)
+        - name: APP_URL
+          value: "https://investigaciones.mzdevocotal.com"
+        - name: ASSET_URL
+          value: "https://investigaciones.mzdevocotal.com"
