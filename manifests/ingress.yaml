@@ -6,7 +6,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: traefik # Mantenemos esto por compatibilidad
 spec:
-  ingressClassName: traefik              # <--- ESTO ES LO QUE FALTA
+  ingressClassName: nginx              # <--- ESTO ES LO QUE FALTA
   rules:
     - host: investigaciones.mzdevocotal.com
       http:
