@@ -3,20 +3,22 @@ kind: Ingress
 metadata:
   name: filament-app-ingress
   namespace: default
+annotations:
+  cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
-  ingressClassName: nginx              # <--- ESTO ES LO QUE FALTA
+  ingressClassName: nginx
 tls:
-    - hosts:
-        - investigaciones.mzdevocotal.com
-      secretName: filament-tls-secret
+  - hosts:
+      - investigaciones.mzdevocotal.com
+    secretName: filament-tls-secret
 rules:
-    - host: investigaciones.mzdevocotal.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: filament-app-service
-                port:
-                  number: 80
+  - host: investigaciones.mzdevocotal.com
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: filament-app-service
+              port:
+                number: 80
