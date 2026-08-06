@@ -27,13 +27,13 @@ spec:
           volumeMounts:
             - name: sqlite-storage
               mountPath: /var/www/html/storage/app/db
-      volumes:
-        - name: sqlite-storage
-          persistentVolumeClaim:
-            claimName: filament-sqlite-pvc
-      env:
-        # ... tus otras variables (DB_HOST, etc)
-        - name: APP_URL
-          value: "https://investigaciones.mzdevocotal.com"
-        - name: ASSET_URL
-          value: "https://investigaciones.mzdevocotal.com"
+          volumes:
+            - name: sqlite-storage
+              persistentVolumeClaim:
+                claimName: filament-sqlite-pvc
+          env:
+            # ... tus otras variables (DB_HOST, etc)
+            - name: APP_URL
+              value: "https://investigaciones.mzdevocotal.com"
+            - name: ASSET_URL
+              value: "https://investigaciones.mzdevocotal.com"
