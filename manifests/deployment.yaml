@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filament-app
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: filament-app
+  template:
+    metadata:
+      labels:
+        app: filament-app
+    spec:
+      securityContext:
+        fsGroup: 33
+      containers:
+      - name: filament-app
+        image: mzdevocotal/filament-app:v1
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: filament-config
+        - secretRef:
+            name: filament-secret
+        volumeMounts:
+        - name: sqlite-storage
+          mountPath: /var/www/html/database
+      volumes:
+      - name: sqlite-storage
+        persistentVolumeClaim:
+          claimName: filament-sqlite-pvc
