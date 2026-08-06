@@ -3,8 +3,6 @@ kind: Ingress
 metadata:
   name: filament-app-ingress
   namespace: default
-  annotations:
-    kubernetes.io/ingress.class: traefik # Mantenemos esto por compatibilidad
 spec:
   ingressClassName: nginx              # <--- ESTO ES LO QUE FALTA
   rules:
