@@ -4,7 +4,7 @@ metadata:
   name: filament-config
 data:
   APP_NAME: "sisinvestfilament"
-  APP_ENV: "production"
+  APP_ENV: "local"
   APP_DEBUG: "false"
   # ¡Importante! Cambia esto por la IP de tu VPS o tu dominio final antes de subirlo
   APP_URL: "http://144.217.167.89:30080" 
