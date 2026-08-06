@@ -46,6 +46,16 @@ COPY --from=frontend /app/public/build ./public/build
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
+
+
+# 1. Limpiar cualquier caché local que se haya copiado accidentalmente con "COPY . ."
+RUN php artisan optimize:clear
+
+# 2. Publicar los assets internos de Filament en la carpeta public
+RUN php artisan filament:assets
+
+
+
 # Dar permisos a storage, cache y a la carpeta de la base de datos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
